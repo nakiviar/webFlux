@@ -5,7 +5,6 @@ import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.service.IProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,8 @@ import org.modelmapper.ModelMapper;
 public class ProductController {
     private final IProductService service;
 
-    @Qualifier("defaultMapper")
-    private final ModelMapper mapper;
+   // @Qualifier("defaultMapper")
+    private final ModelMapper defaultMapper;
 
     @GetMapping
     public Mono<ResponseEntity<Flux<Product>>> listar(){
@@ -100,11 +99,11 @@ public class ProductController {
     }
 
     private ProductDTO convertirEnDTO(Product prod) {
-        return mapper.map(prod,ProductDTO.class);
+        return defaultMapper.map(prod,ProductDTO.class);
     }
 
     private Product convertirEnEntity(ProductDTO product) {
-        return mapper.map(product,Product.class);
+        return defaultMapper.map(product,Product.class);
     }
 
     @DeleteMapping("/{id}")
