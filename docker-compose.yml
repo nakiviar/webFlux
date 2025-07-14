@@ -1,0 +1,23 @@
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_reactivo
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mesero2023v
+    restart: always
+
+  app:
+    build: .
+    container_name: spring_webflux
+    depends_on:
+      - mysql
+    ports:
+      - "7071:7071"
+    environment:
+      SPRING_R2DBC_URL: r2dbc:mysql://mysql:3306/mesero2023v
+      SPRING_R2DBC_USERNAME: root
+      SPRING_R2DBC_PASSWORD: root
