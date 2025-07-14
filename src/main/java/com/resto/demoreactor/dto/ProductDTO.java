@@ -1,6 +1,8 @@
 package com.resto.demoreactor.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +18,8 @@ public class ProductDTO {
     private Integer id;
     @NotNull
     private String name;
-    @NotNull
+    @Min(value = 1)
+    @Max(value = 999)
     private Double price;
     private Boolean status;
 }

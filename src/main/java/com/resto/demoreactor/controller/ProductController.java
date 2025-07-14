@@ -1,20 +1,26 @@
 package com.resto.demoreactor.controller;
 
+import com.resto.demoreactor.dto.ProductDTO;
 import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.service.IProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.modelmapper.ModelMapper;
 
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
     private final IProductService service;
+
+    @Qualifier("defaultMapper")
+    private final ModelMapper mapper;
 
     @GetMapping
     public Mono<ResponseEntity<Flux<Product>>> listar(){
@@ -76,11 +82,11 @@ public class ProductController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Product>> guardar(@Valid @RequestBody Product product){
-        return service.save(product)
+    public Mono<ResponseEntity<ProductDTO>> guardar(@Valid @RequestBody ProductDTO product){
+        return service.save(convertirEnEntity(product))
                 .map(prod -> ResponseEntity
                         .status(HttpStatus.CREATED)
-                        .body(prod))
+                        .body(convertirEnDTO(prod)))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
 //                .onErrorResume(error -> Mono.just(
 //                        ResponseEntity
@@ -91,6 +97,14 @@ public class ProductController {
 //                .onErrorResume(e -> {
 //                    return Mono.error( new RuntimeException("ni modos"));});
 
+    }
+
+    private ProductDTO convertirEnDTO(Product prod) {
+        return mapper.map(prod,ProductDTO.class);
+    }
+
+    private Product convertirEnEntity(ProductDTO product) {
+        return mapper.map(product,Product.class);
     }
 
     @DeleteMapping("/{id}")
