@@ -2,6 +2,7 @@ package com.resto.demoreactor.controller;
 
 import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.service.IProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +76,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Product>> guardar(@RequestBody Product product){
+    public Mono<ResponseEntity<Product>> guardar(@Valid @RequestBody Product product){
         return service.save(product)
                 .map(prod -> ResponseEntity
                         .status(HttpStatus.CREATED)
