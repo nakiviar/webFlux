@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.modelmapper.ModelMapper;
 
+import java.time.Duration;
+
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
@@ -33,6 +35,15 @@ public class ProductController {
         return Mono.just(ResponseEntity
                 .ok(listaFiltrada))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    // BACKPRESSURE
+    @GetMapping("/limitRate")
+    public Flux<Integer> ejemploBackPress(){
+        return Flux.range(1,100)
+                .log()
+                .limitRate(10,5)
+                .delayElements(Duration.ofMillis(1000));
     }
 
     @GetMapping("/ls")
