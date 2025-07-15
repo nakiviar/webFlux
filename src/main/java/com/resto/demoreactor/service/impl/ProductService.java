@@ -5,6 +5,9 @@ import com.resto.demoreactor.dto.external.PostDTO;
 import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.repository.IProductRepository;
 import com.resto.demoreactor.service.IProductService;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ public class ProductService implements IProductService {
 
     private final IProductRepository repo;
     private final WebClient webClient;
+
+    private final CircuitBreakerRegistry circuitBreakerRegistry;
 
     @Override
     public Flux<Product> listAll() {
@@ -61,10 +66,12 @@ public class ProductService implements IProductService {
 
     @Override
     public Mono<PostDTO> getPostById(Integer id) {
+        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("productService");
         return webClient.get()
                 .uri("/posts/{id}",id)
                 .retrieve()
-                .bodyToMono(PostDTO.class);
+                .bodyToMono(PostDTO.class)
+                .transformDeferred(CircuitBreakerOperator.of(cb));
     }
 
 
