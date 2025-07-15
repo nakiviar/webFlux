@@ -4,7 +4,7 @@ services:
     image: mysql:8
     container_name: mysql_reactivo
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mesero2023v
@@ -21,3 +21,12 @@ services:
       SPRING_R2DBC_URL: r2dbc:mysql://mysql:3306/mesero2023v
       SPRING_R2DBC_USERNAME: root
       SPRING_R2DBC_PASSWORD: root
+    entrypoint: >
+      sh -c "
+        echo 'Esperando a MySQL...';
+        until nc -z mysql 3306; do
+          sleep 2;
+        done;
+        echo 'MySQL está listo. Iniciando app.';
+        java -jar app.jar
+      "

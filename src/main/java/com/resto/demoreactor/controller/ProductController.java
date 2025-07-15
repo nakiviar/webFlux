@@ -28,7 +28,7 @@ public class ProductController {
     public Mono<ResponseEntity<Flux<Product>>> listar(){
         Flux<Product> listaFiltrada = service.listAll()
                 .map(product -> {
-                   product.setStatus(false);
+                   product.setState(false);
                    return product;
                 })
                 .filter(p-> p.getPrice()>10);

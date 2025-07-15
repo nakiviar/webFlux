@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Resources;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
@@ -56,13 +55,13 @@ public class ProductControllerTest {
         product1.setId(1);
         product1.setName("mando PS3");
         product1.setPrice(32.0);
-        product1.setStatus(false);
+        product1.setState(false);
 
         productDTO1= new ProductDTO();
         productDTO1.setId(1);
         productDTO1.setName("mando PS3");
         productDTO1.setPrice(32.0);
-        productDTO1.setStatus(false);
+        productDTO1.setState(false);
 
 
         lista = new ArrayList<>();

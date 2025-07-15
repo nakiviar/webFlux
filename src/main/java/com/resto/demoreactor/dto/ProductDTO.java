@@ -21,5 +21,5 @@ public class ProductDTO {
     @Min(value = 1)
     @Max(value = 999)
     private Double price;
-    private Boolean status;
+    private Boolean state;
 }

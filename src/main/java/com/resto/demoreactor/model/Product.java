@@ -2,7 +2,6 @@ package com.resto.demoreactor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -20,7 +19,7 @@ public class Product {
     private String name;
     @Column("price")
     private Double price;
-    @Column("status")
-    private Boolean status;
+    @Column("state")
+    private Boolean state;
 
 }

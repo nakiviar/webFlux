@@ -55,10 +55,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>dev.miku</groupId>
+            <groupId>io.asyncer</groupId>
             <artifactId>r2dbc-mysql</artifactId>
-            <version>0.8.2.RELEASE</version>
         </dependency>
+
         <!-- ANOTACION VALID Y DE LOS DTOS  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
