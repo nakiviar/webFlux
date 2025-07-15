@@ -1,12 +1,14 @@
 package com.resto.demoreactor.service.impl;
 
 
+import com.resto.demoreactor.dto.external.PostDTO;
 import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.repository.IProductRepository;
 import com.resto.demoreactor.service.IProductService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class ProductService implements IProductService {
 
     private final IProductRepository repo;
+    private final WebClient webClient;
 
     @Override
     public Flux<Product> listAll() {
@@ -54,6 +57,14 @@ public class ProductService implements IProductService {
     @Override
     public Flux<Product> listForPrice(Double price) {
         return repo.listaPreciosBajos(price);
+    }
+
+    @Override
+    public Mono<PostDTO> getPostById(Integer id) {
+        return webClient.get()
+                .uri("/posts/{id}",id)
+                .retrieve()
+                .bodyToMono(PostDTO.class);
     }
 
 

@@ -1,6 +1,7 @@
 package com.resto.demoreactor.controller;
 
 import com.resto.demoreactor.dto.ProductDTO;
+import com.resto.demoreactor.dto.external.PostDTO;
 import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.service.IProductService;
 import jakarta.validation.Valid;
@@ -44,6 +45,13 @@ public class ProductController {
                 .log()
                 .limitRate(10,5)
                 .delayElements(Duration.ofMillis(1000));
+    }
+
+
+    // WEBCLIENT EXTERNO
+    @GetMapping("/external/{id}")
+    public Mono<PostDTO> ejemploWebClient(@PathVariable("id") Integer id){
+        return service.getPostById(id);
     }
 
     @GetMapping("/ls")

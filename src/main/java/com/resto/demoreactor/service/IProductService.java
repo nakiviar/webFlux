@@ -1,6 +1,8 @@
 package com.resto.demoreactor.service;
 
+import com.resto.demoreactor.dto.external.PostDTO;
 import com.resto.demoreactor.model.Product;
+import io.r2dbc.spi.Parameter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,4 +17,6 @@ public interface IProductService {
     public Mono<Boolean> delete(Integer id);
 
     Flux<Product> listForPrice(Double price);
+
+    Mono<PostDTO> getPostById(Integer id);
 }
