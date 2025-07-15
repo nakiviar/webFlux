@@ -68,10 +68,20 @@ public class ProductService implements IProductService {
     public Mono<PostDTO> getPostById(Integer id) {
         CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("productService");
         return webClient.get()
-                .uri("/posts/{id}",id)
+                .uri("/postsz/{id}",id)
                 .retrieve()
                 .bodyToMono(PostDTO.class)
-                .transformDeferred(CircuitBreakerOperator.of(cb));
+                .transformDeferred(CircuitBreakerOperator.of(cb))
+                .onErrorResume(throwable -> {
+                    System.out.println("Fallo la llamada, usando fallback: " + throwable.getMessage());
+
+                    // Retornar un valor por defecto
+                    PostDTO fallbackPost = new PostDTO();
+                    fallbackPost.setId(id);
+                    fallbackPost.setTitle("Servicio no disponible");
+                    fallbackPost.setBody("Este post viene del fallback:)");
+                    return Mono.just(fallbackPost);
+                });
     }
 
 
