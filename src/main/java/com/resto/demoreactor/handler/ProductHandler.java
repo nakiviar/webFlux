@@ -1,4 +1,4 @@
-package com.resto.demoreactor.Handler;
+package com.resto.demoreactor.handler;
 
 import com.resto.demoreactor.model.Product;
 import com.resto.demoreactor.service.impl.ProductService;
